@@ -23,6 +23,7 @@ html {
 
 body {
   margin: 0;
+  overflow-x: hidden;
   color: var(--ink);
   background: #fff;
   font-family: "DM Sans", system-ui, sans-serif;
@@ -73,18 +74,12 @@ button {
   gap: 10px;
   color: white;
   text-decoration: none;
-  font-family: "Montserrat", sans-serif;
-  font-size: clamp(24px, 2.2vw, 34px);
-  font-weight: 900;
-  letter-spacing: 0.04em;
 }
 
-.brand-mark,
-.ticket-logo {
-  width: 30px;
-  height: 38px;
-  color: var(--yellow);
-  fill: currentColor;
+.brand-logo {
+  display: block;
+  width: clamp(200px, 22vw, 270px);
+  height: auto;
 }
 
 .header-actions {
@@ -141,6 +136,7 @@ button {
 .hero-copy {
   position: relative;
   z-index: 3;
+  min-width: 0;
   max-width: 650px;
 }
 
@@ -245,6 +241,7 @@ button {
   min-height: 520px;
   position: relative;
   z-index: 1;
+  min-width: 0;
 }
 
 .sun {
@@ -445,9 +442,9 @@ button {
   font-family: "Montserrat", sans-serif;
 }
 
-.ticket-brand strong {
-  font-size: 26px;
-  letter-spacing: 0.03em;
+.ticket-brand-logo {
+  width: 205px;
+  height: auto;
 }
 
 .ticket-brand > span {
@@ -706,7 +703,7 @@ button {
 footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 30px;
   padding: 28px clamp(24px, 7vw, 110px);
   color: rgba(255, 255, 255, 0.68);
@@ -716,7 +713,6 @@ footer {
 
 .footer-brand { display: flex; align-items: center; gap: 10px; color: white; font-size: 13px; font-weight: 800; }
 .footer-brand span { color: var(--yellow); }
-footer p { margin: 0; text-align: right; }
 
 .modal[hidden] { display: none; }
 .modal { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 20px; }
@@ -780,19 +776,37 @@ body.modal-open { overflow: hidden; }
 
 @media (max-width: 740px) {
   .top-strip { font-size: 9px; }
-  .site-header { height: 70px; padding-inline: 18px; }
-  .brand { font-size: 22px; }
-  .brand-mark { width: 24px; }
-  .occasion-chip { font-size: 11px; padding: 8px 11px; }
+  .site-header { height: 70px; gap: 14px; padding-inline: 18px; }
+  .brand { min-width: 0; flex: 1 1 auto; }
+  .brand-logo { width: min(100%, 184px); }
+  .header-actions { flex: 0 0 auto; gap: 0; }
+  .occasion-chip { white-space: nowrap; font-size: 10px; padding: 8px 10px; }
   .header-link { display: none; }
-  .hero { min-height: calc(100svh - 104px); padding: 58px 22px 60px; }
-  .hero h1 { font-size: clamp(58px, 19vw, 82px); }
+  .hero {
+    width: 100%;
+    min-height: auto;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding: 50px 20px 48px;
+  }
+  .hero-copy { width: 100%; max-width: 100%; }
+  .eyebrow { gap: 9px; margin-bottom: 17px; font-size: clamp(10px, 3.2vw, 12px); letter-spacing: .12em; }
+  .eyebrow span { width: 20px; flex: 0 0 20px; }
+  .hero h1 {
+    width: 100%;
+    font-size: clamp(48px, 15.4vw, 64px);
+    letter-spacing: -0.06em;
+    line-height: .92;
+    overflow-wrap: normal;
+  }
+  .hero-lead { max-width: 340px; margin-top: 25px; font-size: 16px; line-height: 1.55; }
   .hero-actions { flex-direction: column; gap: 20px; }
   .hero-actions .primary-button { width: 100%; max-width: 370px; }
-  .hero-visual { min-height: 310px; margin-top: 24px; }
-  .sun { width: 270px; height: 270px; }
-  .tag-one { left: 0; top: 2%; }
-  .tag-two { right: 0; bottom: 1%; }
+  .hero-visual { width: 100%; min-height: 285px; margin-top: 42px; }
+  .sun { width: min(72vw, 270px); height: min(72vw, 270px); }
+  .plane { width: 112%; max-width: 500px; }
+  .tag-one { left: 0; top: 0; }
+  .tag-two { right: 0; bottom: 0; }
   .destination-tag { padding: 9px 12px; font-size: 11px; }
   .scroll-cue { display: none; }
   .gift-section, .steps-section { padding: 80px 18px; }
@@ -800,9 +814,8 @@ body.modal-open { overflow: hidden; }
   .section-heading > p:last-child { font-size: 16px; }
   .ticket { display: block; transform: rotate(0); border-radius: 18px; }
   .ticket-main { padding: 25px 20px 24px; }
-  .ticket-brand strong { font-size: 20px; }
+  .ticket-brand-logo { width: min(47vw, 170px); }
   .ticket-brand > span { font-size: 10px; }
-  .ticket-logo { width: 23px; height: 29px; }
   .ticket-title { margin: 28px 0 25px; }
   .route { gap: 10px; }
   .route strong { font-size: 20px; }
@@ -825,9 +838,18 @@ body.modal-open { overflow: hidden; }
   .step { padding: 30px 25px; }
   .final-cta { align-items: flex-start; flex-direction: column; padding: 38px 26px; }
   .final-cta .primary-button { width: 100%; }
-  footer { flex-direction: column; align-items: flex-start; }
-  footer p { text-align: left; line-height: 1.5; }
+  footer { justify-content: center; }
   .modal-card { padding: 38px 23px 26px; }
+}
+
+@media (max-width: 380px) {
+  .top-strip { letter-spacing: .055em; }
+  .site-header { padding-inline: 14px; }
+  .brand-logo { width: min(100%, 158px); }
+  .occasion-chip { padding-inline: 8px; font-size: 9px; }
+  .hero { padding-inline: 16px; }
+  .hero h1 { font-size: clamp(45px, 15vw, 57px); }
+  .hero-lead { font-size: 15px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
