@@ -267,21 +267,28 @@ button {
 .sun::before { inset: 42px; }
 .sun::after { inset: 92px; }
 
-.plane {
+.plane,
+.flight-trail {
   position: absolute;
   z-index: 2;
-  width: min(720px, 120%);
   left: 50%;
   top: 50%;
+}
+
+.flight-trail {
+  width: min(720px, 120%);
   transform: translate(-53%, -50%);
   overflow: visible;
+}
+
+.plane {
+  width: min(760px, 118%);
+  height: auto;
+  transform: translate(-51%, -50%) rotate(-7deg);
   filter: drop-shadow(0 32px 20px rgba(0, 14, 50, 0.32));
   animation: plane-float 4s ease-in-out infinite;
 }
 
-.plane-body { fill: #ffffff; }
-.plane-wing { fill: #e6edf6; }
-.plane circle { fill: #0b499f; }
 .flight-path {
   fill: none;
   stroke: rgba(255, 255, 255, 0.35);
@@ -290,8 +297,8 @@ button {
 }
 
 @keyframes plane-float {
-  0%, 100% { transform: translate(-53%, -50%); }
-  50% { transform: translate(-53%, calc(-50% - 12px)); }
+  0%, 100% { transform: translate(-51%, -50%) rotate(-7deg); }
+  50% { transform: translate(-51%, calc(-50% - 12px)) rotate(-5.5deg); }
 }
 
 .destination-tag {
@@ -765,7 +772,8 @@ body.modal-open { overflow: hidden; }
   .eyebrow, .hero-actions { justify-content: center; }
   .hero-lead { margin-left: auto; margin-right: auto; }
   .hero-visual { min-height: 430px; }
-  .plane { width: min(700px, 100%); }
+  .plane { width: min(700px, 108%); }
+  .flight-trail { width: min(700px, 100%); }
   .sun { width: 370px; height: 370px; }
   .ticket { grid-template-columns: 1fr 185px; }
   .ticket-main { padding: 30px; }
@@ -804,7 +812,8 @@ body.modal-open { overflow: hidden; }
   .hero-actions .primary-button { width: 100%; max-width: 370px; }
   .hero-visual { width: 100%; min-height: 285px; margin-top: 42px; }
   .sun { width: min(72vw, 270px); height: min(72vw, 270px); }
-  .plane { width: 112%; max-width: 500px; }
+  .plane { width: 118%; max-width: 500px; }
+  .flight-trail { width: 112%; max-width: 500px; }
   .tag-one { left: 0; top: 0; }
   .tag-two { right: 0; bottom: 0; }
   .destination-tag { padding: 9px 12px; font-size: 11px; }
