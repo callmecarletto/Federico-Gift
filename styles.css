@@ -812,7 +812,7 @@ body.modal-open { overflow: hidden; }
   .hero-actions .primary-button { width: 100%; max-width: 370px; }
   .hero-visual { width: 100%; min-height: 285px; margin-top: 42px; }
   .sun { width: min(72vw, 270px); height: min(72vw, 270px); }
-  .plane { width: 118%; max-width: 500px; }
+  .plane { width: 118%; max-width: 500px; top: 22%; }
   .flight-trail { width: 112%; max-width: 500px; }
   .tag-one { left: 0; top: 0; }
   .tag-two { right: 0; bottom: 0; }
