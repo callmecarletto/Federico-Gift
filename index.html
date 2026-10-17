@@ -272,14 +272,26 @@
         </div>
 
         <div class="countdown-card reveal">
-          <p class="countdown-title">Si parte per Vice City tra</p>
-          <div class="countdown" aria-label="Conto alla rovescia all'uscita">
+          <p class="countdown-title">Il codice di GTA VI si sblocca tra</p>
+          <div class="countdown" aria-label="Conto alla rovescia allo sblocco del codice">
             <div><strong id="days">—</strong><span>giorni</span></div>
             <div><strong id="hours">—</strong><span>ore</span></div>
             <div><strong id="minutes">—</strong><span>min</span></div>
             <div><strong id="seconds">—</strong><span>sec</span></div>
           </div>
-          <p class="countdown-note" id="countdown-note">Uscita prevista: <span id="release-label"></span></p>
+          <div class="vault" aria-hidden="true">
+            <span>●●●●● – ●●●●● – ●●●●●</span>
+            <small>Codice bloccato</small>
+          </div>
+
+          <div class="redeem" hidden>
+            <p class="redeem-label">Il tuo codice per GTA VI</p>
+            <output class="redeem-code" id="redeem-code"></output>
+            <button class="btn btn-primary js-copy" type="button">Copia il codice</button>
+            <p class="redeem-hint">Riscattalo nello store della tua console e buon viaggio a Vice City, Dottore.</p>
+          </div>
+
+          <p class="countdown-note" id="countdown-note">Sblocco: <span id="release-label"></span></p>
         </div>
       </section>
     </main>

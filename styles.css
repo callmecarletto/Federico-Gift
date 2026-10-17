@@ -1260,6 +1260,69 @@ blockquote {
   font-size: 15px;
 }
 
+.vault {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  padding: 16px;
+  border: 1px dashed rgba(255, 241, 224, 0.25);
+  border-radius: 14px;
+}
+
+.vault span {
+  font-family: var(--condensed);
+  font-size: clamp(18px, 4vw, 26px);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(255, 241, 224, 0.35);
+}
+
+.vault small {
+  font-family: var(--condensed);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--magenta);
+}
+
+.redeem {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  width: 100%;
+  animation: cover-in 0.9s cubic-bezier(0.2, 0.9, 0.2, 1.15) both;
+}
+
+.redeem-label {
+  font-family: var(--condensed);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--sun);
+}
+
+.redeem-code {
+  display: block;
+  width: 100%;
+  padding: 20px 16px;
+  border: 2px solid var(--sun);
+  border-radius: 14px;
+  background: rgba(255, 211, 92, 0.08);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: clamp(20px, 4.4vw, 34px);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.redeem-hint {
+  color: var(--muted);
+  font-size: 15px;
+}
+
 /* ---------- Footer ---------- */
 
 .site-footer {

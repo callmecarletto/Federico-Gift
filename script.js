@@ -1,5 +1,9 @@
-// Data di uscita di GTA VI (modificala qui se Rockstar la sposta di nuovo)
+// Data di uscita di GTA VI: allo scadere del timer compare il codice
 const releaseDate = new Date("2026-11-19T00:00:00+01:00");
+
+// Il codice vero va inserito qui SOLO il giorno dello sblocco: la repository è pubblica
+const redeemCode = "XXXXX-XXXXX-XXXXX";
+const placeholderCode = "XXXXX-XXXXX-XXXXX";
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -54,47 +58,6 @@ const observer = new IntersectionObserver(
 
 document.querySelectorAll(".reveal:not(.hero .reveal)").forEach((element) => observer.observe(element));
 
-/* ---------- Conto alla rovescia ---------- */
-
-const countdownNodes = {
-  days: document.querySelector("#days"),
-  hours: document.querySelector("#hours"),
-  minutes: document.querySelector("#minutes"),
-  seconds: document.querySelector("#seconds"),
-};
-
-document.querySelector("#release-label").textContent = releaseDate.toLocaleDateString("it-IT", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-});
-
-let countdownTimer;
-
-function updateCountdown() {
-  const distance = releaseDate.getTime() - Date.now();
-
-  if (distance <= 0) {
-    clearInterval(countdownTimer);
-    document.querySelector(".countdown").hidden = true;
-    document.querySelector(".countdown-title").textContent = "È uscito. Che aspetti?";
-    document.querySelector("#countdown-note").textContent = "Vice City ti sta aspettando, Dottore.";
-    return;
-  }
-
-  const day = 1000 * 60 * 60 * 24;
-  const hour = 1000 * 60 * 60;
-  const minute = 1000 * 60;
-
-  countdownNodes.days.textContent = Math.floor(distance / day);
-  countdownNodes.hours.textContent = String(Math.floor((distance % day) / hour)).padStart(2, "0");
-  countdownNodes.minutes.textContent = String(Math.floor((distance % hour) / minute)).padStart(2, "0");
-  countdownNodes.seconds.textContent = String(Math.floor((distance % minute) / 1000)).padStart(2, "0");
-}
-
-updateCountdown();
-countdownTimer = setInterval(updateCountdown, 1000);
-
 /* ---------- Apertura del regalo ---------- */
 
 const stage = document.querySelector(".gift-stage");
@@ -142,3 +105,87 @@ function openGift() {
 }
 
 document.querySelector(".js-open").addEventListener("click", openGift);
+
+/* ---------- Timer e codice ---------- */
+
+const countdownNodes = {
+  days: document.querySelector("#days"),
+  hours: document.querySelector("#hours"),
+  minutes: document.querySelector("#minutes"),
+  seconds: document.querySelector("#seconds"),
+};
+const countdown = document.querySelector(".countdown");
+const vault = document.querySelector(".vault");
+const redeem = document.querySelector(".redeem");
+const redeemOutput = document.querySelector("#redeem-code");
+const copyButton = document.querySelector(".js-copy");
+// ?anteprima nell'indirizzo simula il timer scaduto
+const isPreview = new URLSearchParams(window.location.search).has("anteprima");
+
+document.querySelector("#release-label").textContent = releaseDate.toLocaleString("it-IT", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  timeZone: "Europe/Rome",
+});
+
+let countdownTimer;
+let pageOpenedBeforeUnlock = false;
+
+function unlockCode() {
+  clearInterval(countdownTimer);
+  countdown.hidden = true;
+  vault.hidden = true;
+  redeem.hidden = false;
+  document.querySelector(".countdown-title").textContent = "Timer scaduto";
+
+  if (redeemCode === placeholderCode) {
+    redeemOutput.textContent = "In consegna…";
+    copyButton.hidden = true;
+    document.querySelector(".redeem-hint").textContent = "Il codice sta arrivando: ricarica la pagina tra qualche minuto.";
+  } else {
+    redeemOutput.textContent = redeemCode;
+  }
+
+  if (pageOpenedBeforeUnlock) {
+    missionPassed.hidden = false;
+    makeItRain();
+    setTimeout(() => (missionPassed.hidden = true), 3600);
+  }
+}
+
+function updateCountdown() {
+  const distance = isPreview ? 0 : releaseDate.getTime() - Date.now();
+
+  if (distance <= 0) {
+    unlockCode();
+    return;
+  }
+
+  pageOpenedBeforeUnlock = true;
+
+  const day = 1000 * 60 * 60 * 24;
+  const hour = 1000 * 60 * 60;
+  const minute = 1000 * 60;
+
+  countdownNodes.days.textContent = Math.floor(distance / day);
+  countdownNodes.hours.textContent = String(Math.floor((distance % day) / hour)).padStart(2, "0");
+  countdownNodes.minutes.textContent = String(Math.floor((distance % hour) / minute)).padStart(2, "0");
+  countdownNodes.seconds.textContent = String(Math.floor((distance % minute) / 1000)).padStart(2, "0");
+}
+
+updateCountdown();
+if (redeem.hidden) countdownTimer = setInterval(updateCountdown, 1000);
+
+copyButton.addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText(redeemCode);
+    copyButton.textContent = "Copiato!";
+  } catch {
+    window.getSelection().selectAllChildren(redeemOutput);
+    copyButton.textContent = "Selezionato: premi Ctrl+C";
+  }
+  setTimeout(() => (copyButton.textContent = "Copia il codice"), 2500);
+});
